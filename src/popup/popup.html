@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Wikipedia Graph</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        width: 220px;
+        font-family: system-ui, sans-serif;
+        font-size: 13px;
+        color: #1a1a1a;
+        background: #fff;
+      }
+
+      header {
+        padding: 12px 14px 10px;
+        border-bottom: 1px solid #e8e8e8;
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: -0.01em;
+      }
+
+      main {
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: #555;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: #ccc;
+      }
+      .dot.active { background: #22c55e; }
+      .dot.inactive { background: #d1d5db; }
+
+      .stat {
+        color: #555;
+      }
+      .stat strong {
+        color: #1a1a1a;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding-top: 2px;
+      }
+
+      button {
+        width: 100%;
+        padding: 7px 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: background 0.1s;
+      }
+
+      #open-graph {
+        background: #1a1a1a;
+        color: #fff;
+      }
+      #open-graph:hover { background: #333; }
+      #open-graph:disabled {
+        background: #e5e7eb;
+        color: #9ca3af;
+        cursor: default;
+      }
+
+      #clear-data {
+        background: #f3f4f6;
+        color: #6b7280;
+      }
+      #clear-data:hover { background: #e5e7eb; color: #374151; }
+      #clear-data:disabled {
+        color: #d1d5db;
+        cursor: default;
+      }
+      #clear-data:disabled:hover { background: #f3f4f6; }
+    </style>
+  </head>
+  <body>
+    <header>Wikipedia Graph</header>
+    <main>
+      <div class="status">
+        <div class="dot" id="wiki-dot"></div>
+        <span id="wiki-status">Checking…</span>
+      </div>
+
+      <div class="stat">
+        Nodes collected: <strong id="node-count">—</strong>
+      </div>
+
+      <div class="actions">
+        <button id="open-graph" disabled>Open graph</button>
+        <button id="clear-data" disabled>Clear data</button>
+      </div>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
