@@ -1,1 +1,35 @@
 /* Styles for the full-page force-directed graph viewer. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: #0f1117;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
+#graph-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.links line {
+    stroke: #2a2d3a;
+    stroke-width: 1.2px;
+}
+
+.nodes circle {
+    cursor: grab;
+    stroke-width: 2px;
+}
+
+.nodes circle:active {
+    cursor: grabbing;
+}
+
+.labels text {
+    fill: #e2e8f0;
+    font-family: system-ui, sans-serif;
+    pointer-events: none;
+    text-shadow: 0 1px 3px #0f1117, 0 0 6px #0f1117;
+}
