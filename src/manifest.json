@@ -3,7 +3,7 @@
   "name": "Wikipedia Graph",
   "version": "0.1.0",
   "description": "Visualize Wikipedia article links as a force-directed graph.",
-  "permissions": ["storage", "activeTab"],
+  "permissions": ["storage", "activeTab", "sidePanel"],
   "host_permissions": ["https://*.wikipedia.org/*"],
   "background": {
     "service_worker": "service-worker.js",
@@ -16,8 +16,8 @@
       "run_at": "document_idle"
     }
   ],
-  "action": {
-    "default_popup": "popup.html",
+  "side_panel": {
+    "default_path": "popup.html",
     "default_title": "Wikipedia Graph"
   },
   "web_accessible_resources": [

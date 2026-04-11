@@ -18,3 +18,8 @@ chrome.runtime.onMessage.addListener(({ source, links }) => {
         chrome.storage.local.set({ graph: { nodes, edges } });
     });
 });
+
+
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
+});

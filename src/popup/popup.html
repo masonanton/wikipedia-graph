@@ -7,111 +7,117 @@
       * { box-sizing: border-box; margin: 0; padding: 0; }
 
       body {
-        width: 220px;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        background: #0f1117;
         font-family: system-ui, sans-serif;
-        font-size: 13px;
-        color: #1a1a1a;
-        background: #fff;
+        color: #e2e8f0;
+        overflow: hidden;
       }
 
       header {
-        padding: 12px 14px 10px;
-        border-bottom: 1px solid #e8e8e8;
-        font-weight: 600;
-        font-size: 14px;
-        letter-spacing: -0.01em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        border-bottom: 1px solid #1e2130;
+        flex-shrink: 0;
       }
 
-      main {
-        padding: 12px 14px;
+      .header-left {
         display: flex;
-        flex-direction: column;
+        align-items: center;
         gap: 10px;
       }
 
-      .status {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        color: #555;
+      .title {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: #f1f5f9;
       }
 
       .dot {
-        width: 8px;
-        height: 8px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         flex-shrink: 0;
-        background: #ccc;
+        background: #334155;
       }
       .dot.active { background: #22c55e; }
-      .dot.inactive { background: #d1d5db; }
+      .dot.inactive { background: #334155; }
 
-      .stat {
-        color: #555;
+      .stats {
+        font-size: 11px;
+        color: #64748b;
       }
-      .stat strong {
-        color: #1a1a1a;
+      .stats strong {
+        color: #94a3b8;
         font-variant-numeric: tabular-nums;
       }
 
-      .actions {
+      .header-right {
         display: flex;
-        flex-direction: column;
+        align-items: center;
         gap: 6px;
-        padding-top: 2px;
       }
 
       button {
-        width: 100%;
-        padding: 7px 10px;
-        border: none;
-        border-radius: 6px;
-        font-size: 13px;
-        cursor: pointer;
+        background: none;
+        border: 1px solid #1e2130;
+        border-radius: 5px;
+        color: #64748b;
+        font-size: 11px;
         font-family: inherit;
-        transition: background 0.1s;
+        padding: 4px 8px;
+        cursor: pointer;
+        transition: all 0.1s;
       }
-
-      #open-graph {
-        background: #1a1a1a;
-        color: #fff;
+      button:hover:not(:disabled) {
+        background: #1e2130;
+        color: #94a3b8;
       }
-      #open-graph:hover { background: #333; }
-      #open-graph:disabled {
-        background: #e5e7eb;
-        color: #9ca3af;
+      button:disabled {
+        opacity: 0.35;
         cursor: default;
       }
 
-      #clear-data {
-        background: #f3f4f6;
-        color: #6b7280;
+      #graph-container {
+        flex: 1;
+        overflow: hidden;
       }
-      #clear-data:hover { background: #e5e7eb; color: #374151; }
-      #clear-data:disabled {
-        color: #d1d5db;
-        cursor: default;
+
+      #graph-container svg {
+        width: 100%;
+        height: 100%;
       }
-      #clear-data:disabled:hover { background: #f3f4f6; }
+
+      .labels text {
+        fill: #e2e8f0;
+        font-family: system-ui, sans-serif;
+        pointer-events: none;
+        text-shadow: 0 1px 3px #0f1117, 0 0 6px #0f1117;
+      }
+
+      .nodes circle { cursor: grab; }
+      .nodes circle:active { cursor: grabbing; }
     </style>
   </head>
   <body>
-    <header>Wikipedia Graph</header>
-    <main>
-      <div class="status">
+    <header>
+      <div class="header-left">
         <div class="dot" id="wiki-dot"></div>
-        <span id="wiki-status">Checking…</span>
+        <span class="title">Wikipedia Graph</span>
+        <span class="stats"><strong id="node-count">0</strong> nodes</span>
       </div>
-
-      <div class="stat">
-        Nodes collected: <strong id="node-count">—</strong>
+      <div class="header-right">
+        <button id="open-tab" disabled>Open in tab</button>
+        <button id="clear-data" disabled>Clear</button>
       </div>
-
-      <div class="actions">
-        <button id="open-graph" disabled>Open graph</button>
-        <button id="clear-data" disabled>Clear data</button>
-      </div>
-    </main>
+    </header>
+    <div id="graph-container"></div>
     <script src="popup.js"></script>
+    <script src="graph.js"></script>
   </body>
 </html>

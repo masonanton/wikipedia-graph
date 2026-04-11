@@ -18,6 +18,7 @@ module.exports = {
       patterns: [
         { from: 'src/manifest.json', to: 'manifest.json' },
         { from: 'src/graph/index.html', to: 'graph.html' },
+        { from: 'src/graph/graph.css', to: 'graph.css' },
         { from: 'src/popup/popup.html', to: 'popup.html' },
       ],
     }),
