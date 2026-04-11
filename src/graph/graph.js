@@ -12,6 +12,7 @@ const svg = d3.select('#graph-container').append('svg')
 const zoomLayer = svg.append('g');
 
 svg.call(d3.zoom().on('zoom', e => zoomLayer.attr('transform', e.transform)));
+svg.on('mousemove', handleMousemove);
 
 const linkGroup = zoomLayer.append('g').attr('class', 'links');
 const nodeGroup = zoomLayer.append('g').attr('class', 'nodes');
@@ -22,6 +23,9 @@ const simulation = d3.forceSimulation()
     .force('charge', d3.forceManyBody().strength(-400))
     .force('center', d3.forceCenter(width / 2, height / 2))
     .force('collision', d3.forceCollide().radius(d => d.isParent ? 20 : 12));
+
+let qt = d3.quadtree().x(d => d.x).y(d => d.y);
+let hoveredId = null;
 
 function render({ nodes, edges }) {
     const parentIds = new Set(edges.map(e => e.source));
@@ -60,6 +64,9 @@ function render({ nodes, edges }) {
     label.exit().remove();
 
     simulation.nodes(nodeData).on('tick', () => {
+        // Rebuild quadtree every tick so positions stay current
+        qt = d3.quadtree().x(d => d.x).y(d => d.y).addAll(nodeData);
+
         linkGroup.selectAll('line')
             .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
             .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
@@ -71,6 +78,29 @@ function render({ nodes, edges }) {
 
     simulation.force('link').links(linkData);
     simulation.alpha(0.3).restart();
+}
+
+function handleMousemove(e) {
+    const [mx, my] = d3.pointer(e, zoomLayer.node());
+    const closest = qt.find(mx, my, 20);
+    hoveredId = closest ? closest.id : null;
+
+    nodeGroup.selectAll('circle')
+        .attr('fill', d => {
+            if (d.id === hoveredId) return '#f1f5f9';
+            return d.isParent ? '#6366f1' : '#475569';
+        })
+        .attr('r', d => {
+            if (d.id === hoveredId) return d.isParent ? 16 : 8;
+            return d.isParent ? 14 : 6;
+        });
+
+    labelGroup.selectAll('text')
+        .attr('font-size', d => {
+            if (d.id === hoveredId) return 13;
+            return d.isParent ? 12 : 9;
+        })
+        .attr('fill', d => d.id === hoveredId ? '#fff' : '#e2e8f0');
 }
 
 // Initial load
